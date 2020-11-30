@@ -30,20 +30,17 @@ def reqMsg(sock, UDP_PORT):
 
 
 def waitMsg(sock):
-    cont = 0
     data = ''
-    sock.settimeout(10)
-    while cont < 5:
-        try:
-            data, address = sock.recvfrom(1024)
-        except:
-            print('Tiempo de espera superado, volviendo a intentar...')
-        if data != '':
-            data = (base64.b64decode(data)).decode('utf-8')
-            return data
-        cont = cont + 1
-    print('Ha ocurrido un error, intenta más tarde')
-    return False
+    sock.settimeout(5)
+    try:
+        data, address = sock.recvfrom(1024)
+    except:
+        return False
+    if data != '':
+        data = (base64.b64decode(data)).decode('utf-8')
+        return data
+    else:
+        return False
 
 
 def convertMsg(msg):
